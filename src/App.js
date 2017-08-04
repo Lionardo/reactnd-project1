@@ -28,7 +28,7 @@ class BooksApp extends React.Component {
   getChildContext() {
     return {handleMoveBook: this.handleMoveBook, shelves};
   }
-  handleQueryChange = e => {
+  queryChange = e => {
     const query = e.target.value;
     const time = new Date();
     this.setState({ query });
@@ -109,7 +109,7 @@ class BooksApp extends React.Component {
             render={() =>
               <SearchPage
                 books={searchedBooks}
-                onQueryChange={this.handleQueryChange}
+                onQueryChange={this.queryChange}
                 query={query}
                 searchedQuery={searchedQuery}
               />}
