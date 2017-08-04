@@ -31,22 +31,22 @@ class BooksApp extends React.Component {
   handleQueryChange = e => {
     const query = e.target.value;
     const time = new Date();
-    this.setState({query});
+    this.setState({ query });
     BooksAPI.search(query, 20).then(books => {
       this.setState(state => {
         if (time > state.lastRespondedCall) {
           const searchedBooks = (Array.isArray(books)
             ? books
             : []).map(searchedBook => {
-            const bookInLibrary = state.books.find(
-              ({id}) => id === searchedBook.id,
-            );
-            const shelf = bookInLibrary ? bookInLibrary.shelf : 'none';
-            return {
-              ...searchedBook,
-              shelf,
-            };
-          });
+              const bookInLibrary = state.books.find(
+                ({ id }) => id === searchedBook.id,
+              );
+              const shelf = bookInLibrary ? bookInLibrary.shelf : 'none';
+              return {
+                ...searchedBook,
+                shelf,
+              };
+            });
           return {
             lastRespondedCall: time,
             searchedBooks,
@@ -62,30 +62,30 @@ class BooksApp extends React.Component {
     const shelf = e.target.value;
     BooksAPI.update(book, shelf);
     this.setState(state => {
-      const index = state.books.findIndex(({id}) => book.id === id);
+      const index = state.books.findIndex(({ id }) => book.id === id);
       const books =
-        index === -1 
-          ? [...state.books, {...book, shelf}] 
-          :[...state.books.slice(0, index),
-              {
-                ...state.books[index],
-                shelf,
-              },
-              ...state.books.slice(index + 1),
-            ];
+        index === -1
+          ? [...state.books, { ...book, shelf }]
+          : [...state.books.slice(0, index),
+          {
+            ...state.books[index],
+            shelf,
+          },
+          ...state.books.slice(index + 1),
+          ];
       const searchedBookIndex = state.searchedBooks.findIndex(
-        ({id}) => book.id === id,
+        ({ id }) => book.id === id,
       );
       const searchedBooks =
-        searchedBookIndex === -1 
-          ? state.searchedBooks 
-          :[...state.searchedBooks.slice(0, searchedBookIndex),
-              {
-                ...state.searchedBooks[searchedBookIndex],
-                shelf,
-              },
-              ...state.searchedBooks.slice(searchedBookIndex + 1),
-            ];
+        searchedBookIndex === -1
+          ? state.searchedBooks
+          : [...state.searchedBooks.slice(0, searchedBookIndex),
+          {
+            ...state.searchedBooks[searchedBookIndex],
+            shelf,
+          },
+          ...state.searchedBooks.slice(searchedBookIndex + 1),
+          ];
       return {
         books,
         searchedBooks,
